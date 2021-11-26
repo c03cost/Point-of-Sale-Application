@@ -28,9 +28,9 @@ public class SaleApplication {
     public static ToolsInventory allTools = new ToolsInventory();
     private ArrayList<JRadioButton> toolButtons = new ArrayList<JRadioButton>();
 
-    private JLabel rentalDays = new JLabel("Number of days for rent:");
+    private JLabel rentalDays = new JLabel("Enter number of rental days:");
     private JLabel discountPercent = new JLabel("Enter Discount Percent:");
-    private JLabel checkoutDateLabel = new JLabel("Checkout Date (MM/dd/yy):");
+    private JLabel checkoutDateLabel = new JLabel("Enter checkout Date (MM/dd/yy):");
     private JLabel titleLabel = new JLabel("Tool Rentals");
 
     private JTextField numberOfDaysRented = new JTextField(TEXT_FIELD_SIZE);
