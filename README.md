@@ -14,4 +14,4 @@ MM/dd/yy
 
 If it is not entered in this format, the application will use the current date as the rental checkout date.  
 
-The JUnit test Jar file is included in case you need it downloaded into your referenced libraries.
+The JUnit test Jar file is included in the lib folder in case you need it downloaded into your referenced libraries.
