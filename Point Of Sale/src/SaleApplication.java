@@ -110,7 +110,7 @@ public class SaleApplication {
 
         mainFrame.getContentPane().add(mainPanel);
         mainFrame.setVisible(true);
-        mainFrame.setResizable(false);
+        mainFrame.setResizable(true);
         mainFrame.setLocationRelativeTo(null);
 
     }

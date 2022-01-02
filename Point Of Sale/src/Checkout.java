@@ -1,10 +1,10 @@
 import java.util.Date;
 import java.text.SimpleDateFormat;
-import java.text.DecimalFormat;
-import javax.swing.JOptionPane;
-import java.time.LocalDate;
 import java.lang.Math;
 import java.util.Calendar;
+import java.time.temporal.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The checkout class gathers all of the information needed to create a rental
@@ -95,6 +95,20 @@ public class Checkout {
     }
 
     /**
+     * Creates a new date format
+     * 
+     * @param date The date to reformat
+     * @return String formatted date
+     */
+    public String editDateFormat(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        String formattedDate = format.format(calendar.getTime());
+        return formattedDate;
+    }
+
+    /**
      * Calculates the daily charge for the tool rented.
      * 
      * @param dailyRentalCharge  Price of the tool per day
@@ -120,75 +134,9 @@ public class Checkout {
     public int calculateChargeableDays(Date checkoutDate, String dueDate, boolean weekdayCharge, boolean weekendCharge,
             boolean holidayCharge) {
 
-        Date finalDayOfCharge = null;
-        try {
-            finalDayOfCharge = new SimpleDateFormat("MM/dd/yy").parse(dueDate);
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-
-        // start chargeable dates a day after the checkout date
-        Calendar firstDate = Calendar.getInstance();
-        firstDate.setTime(checkoutDate);
-        firstDate.add(Calendar.DATE, 1);
-        Calendar endDate = Calendar.getInstance();
-        endDate.setTime(finalDayOfCharge);
-        endDate.add(Calendar.DATE, 1);
-
-        int chargeDays = 0;
-
-        // loop through dates to determine each type of charge
-        for (Date date = firstDate.getTime(); firstDate.before(endDate); firstDate.add(Calendar.DATE,
-                1), date = firstDate.getTime()) {
-
-            String dayOfWeek = new SimpleDateFormat("EEEE").format(date);
-            String month = new SimpleDateFormat("MM").format(date);
-            String day = new SimpleDateFormat("dd").format(date);
-            int weekOfMonth = endDate.getActualMinimum(Calendar.WEEK_OF_MONTH) + 1;
-
-            // used when July 4th falls on a Sunday
-            boolean useMon = false;
-
-            if (dayOfWeek.equalsIgnoreCase("saturday") || dayOfWeek.equalsIgnoreCase("sunday")) {
-                if (weekendCharge) {
-                    chargeDays++;
-                }
-                if (!weekendCharge && !holidayCharge) {
-                    if (dayOfWeek.equalsIgnoreCase("saturday") && month.equals("07") && day.equals("04")) {
-                        chargeDays--;
-                    }
-                    if (dayOfWeek.equalsIgnoreCase("sunday") && month.equals("07") && day.equals("04")) {
-                        useMon = true;
-                    }
-                }
-
-            }
-            if (!dayOfWeek.equalsIgnoreCase("saturday") && !dayOfWeek.equalsIgnoreCase("sunday")) {
-
-                // labor day charge
-                if (weekOfMonth == 1 && dayOfWeek.equalsIgnoreCase("Monday") && month.equals("09")) {
-                    if (holidayCharge) {
-                        chargeDays++;
-                    }
-                } else {
-                    // normal weekday charge
-                    if (weekdayCharge) {
-                        if (holidayCharge) {
-                            chargeDays++;
-                        } else if (!holidayCharge) {
-                            // charge on monday after July 4th
-                            if (!useMon) {
-                                chargeDays++;
-                            }
-                        } else {
-                            chargeDays++;
-                        }
-
-                    }
-                }
-            }
-        }
-        return chargeDays;
+        ChargeableDays chargeableDays = new ChargeableDays(checkoutDate, dueDate, weekdayCharge, weekendCharge,
+                holidayCharge);
+        return chargeableDays.calculateChargeableDays();
 
     }
 
@@ -223,20 +171,6 @@ public class Checkout {
         // apply discount percent to the prediscount amount
         double discount = Integer.parseInt(discountPercent) / 100.00;
         return Math.round((preDiscount * discount) * 100.00) / 100.00;
-    }
-
-    /**
-     * Creates a new date format
-     * 
-     * @param date The date to reformat
-     * @return String formatted date
-     */
-    public String editDateFormat(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        String formattedDate = format.format(calendar.getTime());
-        return formattedDate;
     }
 
     /**

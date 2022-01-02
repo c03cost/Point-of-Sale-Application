@@ -67,11 +67,11 @@ public class SaleApplicationTest {
         assertEquals("07/02/20", checkoutDate);
         assertEquals("07/05/20", dueDate);
         assertEquals(1.99, dailyRentalCharge, 0.001);
-        assertEquals(3, chargeDays);
-        assertEquals(5.97, preDiscountCharge, 0.001);
+        assertEquals(2, chargeDays);
+        assertEquals(3.98, preDiscountCharge, 0.001);
         assertEquals("10", discountPercent);
-        assertEquals(.6, discountApplied, 0.001);
-        assertEquals(5.37, finalCharge, 0.001);
+        assertEquals(.4, discountApplied, 0.001);
+        assertEquals(3.58, finalCharge, 0.001);
 
     }
 
@@ -198,11 +198,11 @@ public class SaleApplicationTest {
         assertEquals("07/02/15", checkoutDate);
         assertEquals("07/11/15", dueDate);
         assertEquals(2.99, dailyRentalCharge, 0.001);
-        assertEquals(5, chargeDays);
-        assertEquals(14.95, preDiscountCharge, 0.001);
+        assertEquals(6, chargeDays);
+        assertEquals(17.94, preDiscountCharge, 0.001);
         assertEquals("0", discountPercent);
         assertEquals(0.0, discountApplied, 0.001);
-        assertEquals(14.95, finalCharge, 0.001);
+        assertEquals(17.94, finalCharge, 0.001);
 
     }
 
